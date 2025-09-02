@@ -4,18 +4,24 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - DATABASE_URL=jdbc:mysql://database:3306/tech_shop
-      - DATABASE_USERNAME=root
-      - DATABASE_PASSWORD=password
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/tech_shop?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+    restart: on-failure
 
   database:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: tech_shop
     volumes:
       - ./tech_shop_database.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10

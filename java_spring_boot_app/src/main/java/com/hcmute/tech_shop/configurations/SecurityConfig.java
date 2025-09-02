@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {"/register", "/user/home", "/forgot-password", "/verify-account",
-        "/user/products/**"
+        "/user/products/**", "/"
     };
 
     CustomUserDetailsServiceImpl customUserDetailsService;

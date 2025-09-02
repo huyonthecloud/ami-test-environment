@@ -54,6 +54,11 @@ public class UserController {
         return userRequest;
     }
 
+    @GetMapping("/")
+    public String root() {
+        return "redirect:/user/home";
+    }
+
     @GetMapping("/cart")
     public String showCart() {
         return "user/cart";
